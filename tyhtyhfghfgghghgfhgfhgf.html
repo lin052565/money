@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 恭喜發財 - 搶紅包</title>
+    <style>
+        :root {
+            --red: #d32f2f;
+            --gold: #ffcf40;
+            --dark-red: #8e0000;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, var(--red) 0%, var(--dark-red) 100%);
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            overflow: hidden;
+        }
+
+        /* 紅包雨動畫 */
+        .rain-item {
+            position: absolute;
+            font-size: 28px;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* 主紅包卡片 */
+        .card {
+            width: 300px;
+            height: 450px;
+            background: var(--red);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid var(--gold);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card-top {
+            width: 150%;
+            height: 220px;
+            background: #f44336;
+            border-radius: 50%;
+            position: absolute;
+            top: -110px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .title {
+            color: var(--gold);
+            margin-top: 130px;
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        /* 圓形的「開」按鈕 */
+        .btn-open {
+            width: 110px;
+            height: 110px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 45px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            margin-top: 50px;
+            border: 6px solid #b8860b;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 2;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-open:hover { transform: scale(1.1); background: #ffe082; }
+        .btn-open:active { transform: scale(0.9); }
+        
+        /* 旋轉等待動畫 */
+        .loading { animation: spin 1s infinite linear; pointer-events: none; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* 結果顯示區域 */
+        .result {
+            display: none;
+            text-align: center;
+            color: var(--gold);
+            margin-top: 30px;
+            z-index: 2;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .amount { 
+            font-size: 60px; 
+            font-weight: bold; 
+            margin: 10px 0; 
+            color: white;
+            text-shadow: 0 0 20px var(--gold);
+        }
+
+        .retry-btn {
+            background: white;
+            color: var(--red);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <div class="card-top"></div>
+    <div class="title">新春大紅包</div>
+    <div id="btn" class="btn-open" onclick="openPacket()">開</div>
+    
+    <div id="result" class="result">
+        <p style="font-size: 18px;">恭喜獲得</p>
+        <div class="amount" id="amt">0.00</div>
+        <p style="font-size: 18px; margin-bottom: 20px;">元</p>
+        <button class="retry-btn" onclick="location.reload()">再領一個</button>
+    </div>
+</div>
+
+<script>
+    // 自動生成紅包雨
+    function createRain() {
+        const items = ['🧧', '🧧', '💰', '✨', '🏮'];
+        setInterval(() => {
+            const div = document.createElement('div');
+            div.className = 'rain-item';
+            div.innerHTML = items[Math.floor(Math.random() * items.length)];
+            div.style.left = Math.random() * 100 + 'vw';
+            // 隨機掉落速度
+            const duration = Math.random() * 2 + 3;
+            div.style.animationDuration = duration + 's';
+            // 隨機大小
+            div.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            document.body.appendChild(div);
+            // 動畫結束後移除元素，防止電腦變慢
+            setTimeout(() => div.remove(), duration * 1000);
+        }, 300);
+    }
+    
+    createRain();
+
+    function openPacket() {
+        const btn = document.getElementById('btn');
+        const result = document.getElementById('result');
+        const amtDisplay = document.getElementById('amt');
+
+        // 加上旋轉動畫，模擬「正在開獎」
+        btn.classList.add('loading');
+        btn.innerText = '⌛';
+
+        setTimeout(() => {
+            btn.style.display = 'none';
+            result.style.display = 'block';
+            
+            // 隨機生成 1.00 到 100.00 之間的金額
+            const randomAmt = (Math.random() * 99 + 1).toFixed(2);
+            amtDisplay.innerText = randomAmt;
+        }, 1200);
+    }
+</script>
+
+</body>
+</html>
