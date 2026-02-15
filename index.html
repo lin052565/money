@@ -28,7 +28,7 @@
 <div class="card">
     <div class="card-top"></div>
     <div class="avatar-container"><img src="https://github.com/lin052565.png" alt="頭像"></div>
-    <div class="title">輸入密碼領紅包</div>
+    <div class="title">送你一個大紅包</div>
     
     <div id="btn" class="btn-open" onclick="checkPassword()">開</div>
     
@@ -36,7 +36,7 @@
         <p style="font-size: 18px;">恭喜獲得</p>
         <div class="amount" id="amt">0</div>
         <p style="font-size: 18px;">元</p>
-        <button class="retry-btn" onclick="location.reload()">再領一個</button>
+        <button class="retry-btn" onclick="location.reload()">結束</button>
     </div>
 </div>
 
@@ -60,14 +60,14 @@
     // 密碼檢查邏輯
     function checkPassword() {
         // 設定密碼為 812
-        const correctPassword = "812"; 
+        const correctPassword = "0812"; 
         
         const userInput = prompt("請輸入領取密碼：");
 
         if (userInput === correctPassword) {
             openPacket(); // 密碼正確，執行開紅包流程
         } else if (userInput !== null) {
-            alert("密碼錯誤！領不到喔 😜");
+            alert("密碼錯誤！");
         }
     }
 
