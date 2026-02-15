@@ -179,14 +179,14 @@
 
         // 加上旋轉動畫，模擬「正在開獎」
         btn.classList.add('loading');
-        btn.innerText = '?請等待?';
+        btn.innerText = '等待';
 
         setTimeout(() => {
             btn.style.display = 'none';
             result.style.display = 'block';
             
             // 隨機生成 70.00 到 100.00 之間的金額
-            const randomAmt = (Math.random() * 99 + 1).toFixed(2);
+            const randomAmt = Math.floor(Math.random() * 99 + 1);
             amtDisplay.innerText = randomAmt;
         }, 1200);
     }
