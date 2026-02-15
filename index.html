@@ -138,13 +138,13 @@
 
 <div class="card" id="mainCard">
     <div class="card-top"></div>
-    <div class="title">新春大紅包</div>
+    <div class="title">zheyu大紅包</div>
     <div id="btn" class="btn-open" onclick="openPacket()">開</div>
     
     <div id="result" class="result">
         <p style="font-size: 18px;">恭喜獲得</p>
         <div class="amount" id="amt">0.00</div>
-        <p style="font-size: 18px; margin-bottom: 20px;">元</p>
+        <p style="font-size: 18px; margin-bottom: 20px;">$元$</p>
         <button class="retry-btn" onclick="location.reload()">結束</button>
     </div>
 </div>
@@ -152,7 +152,7 @@
 <script>
     // 自動生成紅包雨
     function createRain() {
-        const items = ['🧧', '🧧', '💰', '✨', '🏮'];
+        const items = ['🧧', '🧧', '💰', '✨', '🏮',''];
         setInterval(() => {
             const div = document.createElement('div');
             div.className = 'rain-item';
