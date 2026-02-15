@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 恭喜發財 - 最終儀式版</title>
+    <title>2026 恭喜發財-Zheyu-TW</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --red: #d32f2f; --gold: #ffcf40; --dark-red: #8e0000; }
@@ -58,14 +58,14 @@
         <p style="font-size: 18px;">恭喜獲得</p>
         <div class="amount" id="amt">0</div>
         <p style="font-size: 18px;">元</p>
-        <button class="retry-btn" onclick="location.reload()">再領一個</button>
+        <button class="retry-btn" onclick="location.reload()">結束</button>
     </div>
 </div>
 
 <script>
     // 1. 製造紅包雨背景
     function createRain() {
-        const items = ['🧧', '💰', '✨'];
+        const items = ['🧧', '💰', '✨',''];
         setInterval(() => {
             const div = document.createElement('div');
             div.className = 'rain-item';
