@@ -9,7 +9,7 @@
         :root { --red: #d32f2f; --gold: #ffcf40; --dark-red: #8e0000; }
         body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, var(--red) 0%, var(--dark-red) 100%); font-family: sans-serif; overflow: hidden; }
         
-        /* 紅包雨動畫 */
+        /* 紅包雨 */
         .rain-item { position: absolute; font-size: 28px; pointer-events: none; z-index: 1; animation: fall linear forwards; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
@@ -32,6 +32,10 @@
             transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.4); 
         }
         .btn-open:active { transform: scale(0.9); }
+        
+        /* 旋轉動畫（等待儀式感） */
+        .loading { animation: spin 1s infinite linear; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* 結果顯示 */
         .result { display: none; text-align: center; color: var(--gold); margin-top: 20px; z-index: 2; animation: fadeIn 0.5s ease; }
@@ -61,7 +65,7 @@
 <script>
     // 1. 製造紅包雨
     function createRain() {
-        const items = ['🧧', '💰', '✨'];
+        const items = ['🧧', '💰', '✨',''];
         setInterval(() => {
             const div = document.createElement('div');
             div.className = 'rain-item';
@@ -75,29 +79,34 @@
     }
     createRain();
 
-    // 2. 開紅包的動作
+    // 2. 開紅包（含等待時間）
     function openPacket() {
         const btn = document.getElementById('btn');
         const result = document.getElementById('result');
         const amtDisplay = document.getElementById('amt');
 
-        // 隱藏按鈕，顯示結果
-        btn.style.display = 'none';
-        result.style.display = 'block';
-        
-        // 產生 20 到 100 的整數
-        const randomAmt = Math.floor(Math.random() * 81 + 20);
-        amtDisplay.innerText = randomAmt;
+        // 第一步：進入旋轉等待狀態
+        btn.classList.add('loading');
+        btn.innerText = '⌛';
+        btn.style.pointerEvents = 'none'; // 鎖定按鈕防止重複點擊
 
-        // 噴發彩色紙屑
-        if (typeof confetti === 'function') {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ffcf40', '#ffffff', '#ff4d4d']
-            });
-        }
+        // 第二步：延遲 1.2 秒後開獎
+        setTimeout(() => {
+            btn.style.display = 'none';
+            result.style.display = 'block';
+            
+            const randomAmt = Math.floor(Math.random() * 81 + 20);
+            amtDisplay.innerText = randomAmt;
+
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ffcf40', '#ffffff', '#ff4d4d']
+                });
+            }
+        }, 1200);
     }
 </script>
 
